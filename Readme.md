@@ -14,3 +14,16 @@ To run, i use a alias that i added to my shell
 ```
 alias nginxhere='docker run --rm -it -p 80:80 -p 443:443 -v "${PWD}:/srv/data" org/nginxserve'
 ```
+
+## webdav
+
+Webdav through wsgidav served as a docker container. The server serves anonymously on port 80 from `/srv/data`. Uses alpine:python as base image.
+
+Build it with `docker build -t org/nginxswebdav .`
+
+To run, i use the alias:
+```
+alias webdavhere='docker run --rm -it -p 80:80 -v "${PWD}:/srv/data/share" org/webdav'
+```
+
+From Windows, I can browse to the WebDav share by a UNC path: `\\192.168.X.X@80\share`
