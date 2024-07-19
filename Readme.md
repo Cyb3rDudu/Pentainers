@@ -1,6 +1,6 @@
 # Pentainers
 
-A collection of Docker files for Containers i use for penetration testing
+A collection of Docker files for Containers i use for penetration testing.
 
 ## nginxserve
 
@@ -27,3 +27,26 @@ alias webdavhere='docker run --rm -it -p 80:80 -v "${PWD}:/srv/data/share" org/w
 ```
 
 From Windows, I can browse to the WebDav share by a UNC path: `\\192.168.X.X@80\share`
+
+## impacket
+
+Impacket as a container on python:alpine base image. The repository includes latest impacket from github as submodule so submodules need to be pulled with this repository to build the container.
+
+Build it with `docker build -t org/impacket .`
+
+With the following alias and bashfunction it can be used:
+```
+alias impacket="docker run --rm -it org/impacket"
+```
+This alias allows usage bey e.g. executing `impacket wmiexec.py` or any other script from the examples of impacket.
+
+If inbound traffic for impacket is needed e.g. for a smb server, ports need to be forwarded. In smb case `-p 445:445` and additionaly, a volume mount to keep files persistent is needed. 
+
+This bash function mounts the current folder to the container at `/tmp/serve` and serves it via smb when `smbhere` is executed.
+```
+smbhere() {
+    local sharename
+    [[ -z $1 ]] && sharename="SHARE" || sharename=$1
+    docker run --rm -it -p 445:445 -v "${PWD}:/tmp/serve" org/impacket smbserver.py -smb2support $sharename /tmp/serve
+}
+```
