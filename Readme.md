@@ -50,9 +50,18 @@ smbhere() {
     docker run --rm -it -p 445:445 -v "${PWD}:/tmp/serve" org/impacket smbserver.py -smb2support $sharename /tmp/serve
 }
 ```
+ 
+## Reqdump
+
+A simple JavaScript server that echos any HTTP request it receives it to stdout. This is really useful when testing for SSRF or needing to see if a blind command injection is working with curl. The alias for it is:
+
+```
+alias reqdump='docker run --rm -it -p 80:3000 org/reqdump
+```
+This starts a local listener on 80 (although it’s entirely customizable). If it receives any HTTP request it prints it out
 
 ## Todo 
 Add Containers 
 - [] Default Linux Distos
 - [] Metasploit
-- [] Sliver C2 
+- []   Sliver C2 
